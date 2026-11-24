@@ -1,0 +1,26 @@
+<main class="shell">
+  <p class="brand">Cami-Do</p>
+
+  @switch (estado()) {
+    @case ('verificando') {
+      <h1>Verificando tu correo</h1>
+      <p class="copy">Un momento, estamos confirmando el enlace.</p>
+    }
+    @case ('ok') {
+      <h1>Correo verificado</h1>
+      <p class="copy">Tu cuenta ya puede usar el correo confirmado.</p>
+    }
+    @case ('invalido') {
+      <h1>Enlace inválido o vencido</h1>
+      <p class="copy">Pedí un nuevo enlace de verificación e intentá otra vez.</p>
+    }
+    @case ('ausente') {
+      <h1>Falta el enlace de verificación</h1>
+      <p class="copy">Abrí el correo completo y usá el botón o el vínculo que te enviamos.</p>
+    }
+    @case ('errorRed') {
+      <h1>No pudimos conectar</h1>
+      <p class="copy">Revisá tu conexión o intentá más tarde. El enlace no se consumió si el servidor no respondió.</p>
+    }
+  }
+</main>
