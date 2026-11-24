@@ -1,0 +1,100 @@
+<main class="shell">
+  <p class="brand">Cami-Do</p>
+  @if (listo()) {
+    <h1>Revisá tu correo</h1>
+    <p class="copy">
+      Creamos la cuenta. Tenés que verificar el email antes de iniciar sesión. Si indicaste un
+      cinturón, queda como declaración tuya y no como grado oficial.
+    </p>
+    <a routerLink="/login">Iniciar sesión</a>
+    <a routerLink="/verificar-email">Ya tengo el enlace de verificación</a>
+  } @else {
+    <h1>Crear cuenta</h1>
+    <p class="copy">
+      La cuenta es personal. El recorrido es una intención: no asigna un rol ni un grado oficial.
+    </p>
+    <form [formGroup]="form" (ngSubmit)="enviar()" novalidate>
+      <label>
+        Nombre
+        <input type="text" formControlName="nombre" autocomplete="given-name" />
+      </label>
+      @if (form.controls.nombre.touched && form.controls.nombre.invalid) {
+        <p class="error">El nombre es obligatorio.</p>
+      }
+      <label>
+        Apellido
+        <input type="text" formControlName="apellido" autocomplete="family-name" />
+      </label>
+      @if (form.controls.apellido.touched && form.controls.apellido.invalid) {
+        <p class="error">El apellido es obligatorio.</p>
+      }
+      <label>
+        Email
+        <input type="email" formControlName="email" autocomplete="email" />
+      </label>
+      @if (form.controls.email.touched && form.controls.email.invalid) {
+        <p class="error">Ingresá un email válido.</p>
+      }
+      <label>
+        Fecha de nacimiento
+        <input type="date" formControlName="fechaNacimiento" autocomplete="bday" />
+      </label>
+      @if (form.controls.fechaNacimiento.touched && form.controls.fechaNacimiento.invalid) {
+        <p class="error">La fecha tiene que ser anterior a hoy.</p>
+      }
+      <fieldset>
+        <legend>Recorrido inicial</legend>
+        <div class="opciones">
+          <label><input type="radio" formControlName="intencion" value="ALUMNO" /> Alumno</label>
+          <label><input type="radio" formControlName="intencion" value="PROFESOR" /> Profesor</label>
+          <label><input type="radio" formControlName="intencion" value="ORGANIZADOR" /> Organizador</label>
+        </div>
+      </fieldset>
+      @if (form.touched && form.hasError('intencion')) {
+        <p class="error">Elegí cómo vas a empezar.</p>
+      }
+      <label>
+        ¿Cuál es tu categoría o cinturón actual?
+        <select formControlName="categoriaId" [disabled]="cargandoCatalogo()">
+          <option value="">Elegí una categoría</option>
+          @for (categoria of categorias(); track categoria.id) {
+            <option [value]="categoria.id">{{ categoria.nombre }}</option>
+          }
+        </select>
+      </label>
+      @if (form.controls.intencion.value === 'ORGANIZADOR') {
+        <p class="copy">Para organizador, el cinturón es opcional.</p>
+      }
+      @if (form.touched && form.hasError('categoria')) {
+        <p class="error">Elegí tu categoría actual.</p>
+      }
+      <label>
+        Contraseña
+        <input type="password" formControlName="password" autocomplete="new-password" />
+      </label>
+      @if (form.controls.password.touched && form.controls.password.hasError('required')) {
+        <p class="error">La contraseña es obligatoria.</p>
+      }
+      @if (form.controls.password.touched && form.controls.password.hasError('minlength')) {
+        <p class="error">Usá al menos 8 caracteres.</p>
+      }
+      @if (form.controls.password.touched && form.controls.password.hasError('bytes')) {
+        <p class="error">La contraseña supera el máximo permitido.</p>
+      }
+      <label>
+        Confirmación de contraseña
+        <input type="password" formControlName="confirmacion" autocomplete="new-password" />
+      </label>
+      @if (form.controls.confirmacion.touched && form.hasError('noCoincide')) {
+        <p class="error">Las contraseñas no coinciden.</p>
+      }
+      @if (error()) {
+        <p class="error" role="alert">{{ error() }}</p>
+      }
+      <button type="submit" [disabled]="enviando() || cargandoCatalogo()">
+        {{ enviando() ? 'Creando cuenta…' : 'Crear cuenta' }}
+      </button>
+    </form>
+    <a routerLink="/login">Ya tengo cuenta</a>
+  }
+</main>

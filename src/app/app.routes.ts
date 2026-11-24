@@ -17,6 +17,10 @@ export const routes: Routes = [
     loadComponent: () => import('./features/auth/login/login').then((m) => m.Login),
   },
   {
+    path: 'registro',
+    loadComponent: () => import('./features/auth/registro/registro').then((m) => m.Registro),
+  },
+  {
     path: 'bienvenida',
     canActivate: [authGuard],
     loadComponent: () => import('./features/auth/bienvenida/bienvenida').then((m) => m.Bienvenida),
