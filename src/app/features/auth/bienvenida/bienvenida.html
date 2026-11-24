@@ -1,0 +1,8 @@
+<main class="shell">
+  <p class="brand">Cami-Do</p>
+  @if (sesion(); as usuario) {
+    <h1>Hola, {{ usuario.nombre }}</h1>
+    <p class="copy">Sesión iniciada como {{ usuario.email }}.</p>
+  }
+  <button type="button" (click)="salir()">Cerrar sesión</button>
+</main>
