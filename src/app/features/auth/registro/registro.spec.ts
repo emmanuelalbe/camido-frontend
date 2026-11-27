@@ -88,7 +88,8 @@ describe('Registro', () => {
     req.flush('"11111111-1111-1111-1111-111111111111"');
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(fixture.nativeElement.textContent).toContain('Revisá tu correo');
+    expect(fixture.nativeElement.textContent).toContain('Cuenta creada');
+    expect(fixture.nativeElement.textContent).toContain('Si la verificación de correo está activa');
     expect(fixture.nativeElement.textContent).toContain('Iniciar sesión');
     expect(fixture.nativeElement.querySelector('a[href="/login"]')).toBeTruthy();
     expect(fixture.nativeElement.querySelector('a[href="/verificar-email"]')).toBeTruthy();
